@@ -7,15 +7,15 @@ import org.litepal.crud.DataSupport;
  */
 
 public class EntityModel extends DataSupport {
-    private String id;
+    private Integer id;
     private String name;
     private String code;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
