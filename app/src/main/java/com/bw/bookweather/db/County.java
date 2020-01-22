@@ -7,7 +7,7 @@ package com.bw.bookweather.db;
 
 public class County extends EntityModel {
     private String parentId;
-    private String weatherId;
+//    private String countyCode;
 
     public String getParentId() {
         return parentId;
@@ -17,11 +17,11 @@ public class County extends EntityModel {
         this.parentId = parentId;
     }
 
-    public String getWeatherId() {
-        return weatherId;
-    }
-
-    public void setWeatherId(String weatherId) {
-        this.weatherId = weatherId;
-    }
+//    public String getWeatherId() {
+//        return countyCode;
+//    }
+//
+//    public void setWeatherId(String countyCode) {
+//        this.countyCode = countyCode;
+//    }
 }

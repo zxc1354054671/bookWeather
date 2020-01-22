@@ -1,17 +1,17 @@
 package com.bw.bookweather.util;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.bw.bookweather.db.City;
 import com.bw.bookweather.db.County;
 import com.bw.bookweather.db.Province;
+import com.bw.bookweather.json.WeatherJson;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 
 /**
  * Created by zxc on 2020/1/11.
@@ -36,7 +36,8 @@ public class Utility {
         }
         return false;
     }
-    public static boolean handleCityResponse(String response,String parentId) {
+
+    public static boolean handleCityResponse(String response, String parentId) {
         if (!TextUtils.isEmpty(response)) {
             try {
                 JSONArray jsonArray = new JSONArray(response);
@@ -55,7 +56,8 @@ public class Utility {
         }
         return false;
     }
-    public static boolean handleCountyResponse(String response,String parentId) {
+
+    public static boolean handleCountyResponse(String response, String parentId) {
         if (!TextUtils.isEmpty(response)) {
             try {
                 JSONArray jsonArray = new JSONArray(response);
@@ -63,7 +65,7 @@ public class Utility {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     County county = new County();
                     county.setName(jsonObject.getString("name"));
-                    county.setWeatherId(jsonObject.getString("weather_id"));
+                    county.setCode(jsonObject.getString("weather_id").substring(2));
                     county.setParentId(parentId);
                     county.save();
                 }
@@ -74,4 +76,14 @@ public class Utility {
         }
         return false;
     }
+
+    public static WeatherJson handleWeatherJsonResponse(String response) {
+        Gson gson = new Gson();
+        WeatherJson weatherJson = gson.fromJson(response, WeatherJson.class);
+        Log.d(TAG, "handleWeatherJsonResponse: " + weatherJson.status);
+        return weatherJson;
+
+    }
+
+    private static final String TAG = "Utility---------";
 }

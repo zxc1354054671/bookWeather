@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.bw.bookweather.receiver.AlarmReceiver;
 
@@ -21,6 +22,9 @@ import java.util.TimeZone;
  */
 
 public class WarnService extends Service {
+    int hour=11;
+    int minute=33;
+    private static final String TAG = "WarnService-----------";
     /**
      * 开启提醒
      */
@@ -38,9 +42,9 @@ public class WarnService extends Service {
         // 这里时区需要设置一下，不然可能个别手机会有8个小时的时间差
         mCalendar.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         //设置在几点提醒  设置的为13点
-        mCalendar.set(Calendar.HOUR_OF_DAY, 13);
+        mCalendar.set(Calendar.HOUR_OF_DAY, hour);
         //设置在几分提醒  设置的为25分
-        mCalendar.set(Calendar.MINUTE, 25);
+        mCalendar.set(Calendar.MINUTE, minute);
         //下面这两个看字面意思也知道
         mCalendar.set(Calendar.SECOND, 0);
         mCalendar.set(Calendar.MILLISECOND, 0);
@@ -79,7 +83,7 @@ public class WarnService extends Service {
          * 第三个参数是重复周期，也就是下次提醒的间隔 毫秒值 我这里是一天后提醒
          */
         am.setRepeating(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), (1000 * 60 * 60 * 24), pi);
-
+        Log.d(TAG, "startRemind: ------------------");
     }
 
     @Nullable

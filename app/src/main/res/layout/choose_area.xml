@@ -23,8 +23,9 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/location_white"
+            android:background="@drawable/back_gray"
             />
+
         <!--android:background="@drawable/ic_back"-->
     </RelativeLayout>
 
@@ -32,6 +33,15 @@
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <ListView
+        android:id="@+id/configListView"
+        android:visibility="gone"
+        android:headerDividersEnabled="true"
+        android:stackFromBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
 
 
 </LinearLayout>
