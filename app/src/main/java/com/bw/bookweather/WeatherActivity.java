@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,8 +22,6 @@ import com.bumptech.glide.Glide;
 import com.bw.bookweather.db.AppConfig;
 import com.bw.bookweather.json.ForecastJson;
 import com.bw.bookweather.json.WeatherJson;
-import com.bw.bookweather.service.AutoUpdateService;
-import com.bw.bookweather.service.WarnService;
 import com.bw.bookweather.util.ConfigEnum;
 import com.bw.bookweather.util.ConfigUtil;
 import com.bw.bookweather.util.HttpUtil;
@@ -38,7 +35,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class WeatherActivity extends AppCompatActivity implements View.OnClickListener {
+public class WeatherActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "WeatherActivity-------";
     private ScrollView weatherLayout;
     private TextView titleCity;
@@ -58,6 +55,7 @@ public class WeatherActivity extends AppCompatActivity implements View.OnClickLi
     public SwipeRefreshLayout swipeRefresh;
     public DrawerLayout drawerLayout;
     public Button navButton;
+    public Button configBt;
     public Button refreshImgBt;
     public ImageView bingImgView;
 
@@ -68,29 +66,32 @@ public class WeatherActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
 
+//
+//        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//        manager.cancel(1);
+        //todo
+
 //初始化各控件
         weatherLayout = (ScrollView) findViewById(R.id.weatherLayout);
         titleCity = (TextView) findViewById(R.id.titleCity);
         titleUpdateTime = (TextView) findViewById(R.id.titleUpdateTime);
         degreeText = (TextView) findViewById(R.id.degreeText);
-//        weatherInfoText = (TextView) findViewById(R.id.weatherInfoText);
         forecastLayout = (LinearLayout) findViewById(R.id.forecastLayout);
         aqiText = (TextView) findViewById(R.id.aqiText);
         pm25Text = (TextView) findViewById(R.id.pm25Text);
-//        comfortText = (TextView) findViewById(R.id.comfortText);
-//        carWashText = (TextView) findViewById(R.id.carWashText);
-//        sportText = (TextView) findViewById(R.id.sportText);
         noticeText = (TextView) findViewById(R.id.noticeText);
         noteText = (TextView) findViewById(R.id.noteText);
         swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         drawerLayout = findViewById(R.id.drawerLayout);
         navButton = findViewById(R.id.navButton);
+        configBt = findViewById(R.id.configBt);
         refreshImgBt = findViewById(R.id.refreshImgBt);
         bingImgView = findViewById(R.id.bingImgView);
         pm10Text = findViewById(R.id.pm10Text);;
         humidityText = findViewById(R.id.humidityText);
 
         navButton.setOnClickListener(this);
+        configBt.setOnClickListener(this);
         refreshImgBt.setOnClickListener(this);
 
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
@@ -101,6 +102,9 @@ public class WeatherActivity extends AppCompatActivity implements View.OnClickLi
         if (!TextUtils.isEmpty(weatherStr)) {
             //有缓存时
             WeatherJson weather = Utility.handleWeatherJsonResponse(weatherStr);
+            if (weather==null){
+                return;
+            }
             showWeatherInfo(weather);
         } else {
             weatherLayout.setVisibility(View.INVISIBLE);
@@ -243,10 +247,6 @@ public class WeatherActivity extends AppCompatActivity implements View.OnClickLi
 //            carWashText.setText(carWash);
             weatherLayout.setVisibility(View.VISIBLE);
 
-            Intent intent = new Intent(this, AutoUpdateService.class);
-            Intent intentWarnService = new Intent(this, WarnService.class);
-            startService(intent);
-            startService(intentWarnService);
 //            new ChooseAreaFragment().queryConfigs();
         } else {
             Toast.makeText(WeatherActivity.this, "获取天气失败", Toast.LENGTH_SHORT).show();
@@ -262,6 +262,11 @@ public class WeatherActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.refreshImgBt:
                 loadBingImg("");
+                break;
+            case R.id.configBt:
+                Intent intent = new Intent(this,ConfigActivity.class);
+                intent.putExtra("activity", "configActivity");
+                startActivityForResult(intent,3);
                 break;
 //            case R.id.titleCity:
 //                Toast.makeText(this, "...", Toast.LENGTH_SHORT).show();

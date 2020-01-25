@@ -48,8 +48,8 @@ public class ConfigUtil {
     public static List<String> getConfigList() {
         synchronized (configList){
             if (configList.size()<1){
-                configList.add("地点");
-                configList.add("");
+//                configList.add("地点");
+//                configList.add("");
                 configList.add("关于");
 //                configList.add("");
             }

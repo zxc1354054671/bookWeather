@@ -5,7 +5,7 @@ package com.bw.bookweather.util;
  */
 
 public enum ConfigEnum {
-    LOCATION("location"),TYPE_CONFIG("config");
+    LOCATION("location"),TYPE_CONFIG("raw/config");
 
     private String value;
 

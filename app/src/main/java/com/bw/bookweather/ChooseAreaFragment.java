@@ -44,7 +44,7 @@ import okhttp3.Response;
 
 public class ChooseAreaFragment extends Fragment implements View.OnClickListener {
 
-//    public static final int LEVEL_CONFIG = 0;
+    //    public static final int LEVEL_CONFIG = 0;
     public static final int LEVEL_PROVINCE = 0;
     public static final int LEVEL_CITY = 1;
     public static final int LEVEL_COUNTY = 2;
@@ -105,44 +105,44 @@ public class ChooseAreaFragment extends Fragment implements View.OnClickListener
 //
 //                        }
 //                    } else
-                        if (currentLevel == LEVEL_PROVINCE) {
-                        selectedProvince = provinceList.get(position);
-                        Log.d(TAG, "onItemClick: queryCities");
-                        queryCities();
-                    } else if (currentLevel == LEVEL_CITY) {
-                        selectedCity = cityList.get(position);
-                        queryCounties();
-                    } else if (currentLevel == LEVEL_COUNTY) {
-                        String countyCode = countyList.get(position).getCode();
-                        AppConfig ac = new AppConfig();
-                        Map<String, AppConfig> appConfigMap = ConfigUtil.getAppConfigMap();
-                        if (appConfigMap.get(ConfigEnum.LOCATION.getValue()) == null) {
-                            ac = new AppConfig();
-                            ac.setCode(ConfigEnum.LOCATION.getValue());
-                        } else {
-                            ac = appConfigMap.get(ConfigEnum.LOCATION.getValue());
-                        }
-                        ac.setValue(countyCode);
+                if (currentLevel == LEVEL_PROVINCE) {
+                    selectedProvince = provinceList.get(position);
+                    Log.d(TAG, "onItemClick: queryCities");
+                    queryCities();
+                } else if (currentLevel == LEVEL_CITY) {
+                    selectedCity = cityList.get(position);
+                    queryCounties();
+                } else if (currentLevel == LEVEL_COUNTY) {
+                    String countyCode = countyList.get(position).getCode();
+                    AppConfig ac = new AppConfig();
+                    Map<String, AppConfig> appConfigMap = ConfigUtil.getAppConfigMap();
+                    if (appConfigMap.get(ConfigEnum.LOCATION.getValue()) == null) {
+                        ac = new AppConfig();
+                        ac.setCode(ConfigEnum.LOCATION.getValue());
+                    } else {
+                        ac = appConfigMap.get(ConfigEnum.LOCATION.getValue());
+                    }
+                    ac.setValue(countyCode);
+                    Log.d(TAG, "onItemClick: " + countyCode);
+                    ac.save();
+                    appConfigMap.put(ConfigEnum.LOCATION.getValue(), ac);
+                    if (getActivity() instanceof MainActivity) {
+                        Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                        intent.putExtra("countyCode", countyCode);
+                        startActivity(intent);
+                        getActivity().finish();
+                    } else if (getActivity() instanceof WeatherActivity) {
+                        WeatherActivity activity = (WeatherActivity) getActivity();
+                        activity.getIntent().putExtra("countyCode", countyCode);
+                        SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(activity).edit();
+                        edit.putString("countyCode", countyCode);
                         Log.d(TAG, "onItemClick: " + countyCode);
-                        ac.save();
-                        appConfigMap.put(ConfigEnum.LOCATION.getValue(), ac);
-                        if (getActivity() instanceof MainActivity) {
-                            Intent intent = new Intent(getActivity(), WeatherActivity.class);
-                            intent.putExtra("countyCode", countyCode);
-                            startActivity(intent);
-                            getActivity().finish();
-                        } else if (getActivity() instanceof WeatherActivity) {
-                            WeatherActivity activity = (WeatherActivity) getActivity();
-                            activity.getIntent().putExtra("countyCode", countyCode);
-                            SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(activity).edit();
-                            edit.putString("countyCode", countyCode);
-                            Log.d(TAG, "onItemClick: " + countyCode);
-                            activity.drawerLayout.closeDrawers();
-                            activity.swipeRefresh.setRefreshing(true);
-                            activity.requestWeather(countyCode);
-                        }
+                        activity.drawerLayout.closeDrawers();
+                        activity.swipeRefresh.setRefreshing(true);
+                        activity.requestWeather(countyCode);
                     }
                 }
+            }
 
 //            }
         });

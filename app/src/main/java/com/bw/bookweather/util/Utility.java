@@ -1,5 +1,8 @@
 package com.bw.bookweather.util;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -80,10 +83,30 @@ public class Utility {
     public static WeatherJson handleWeatherJsonResponse(String response) {
         Gson gson = new Gson();
         WeatherJson weatherJson = gson.fromJson(response, WeatherJson.class);
-        Log.d(TAG, "handleWeatherJsonResponse: " + weatherJson.status);
+//        Log.d(TAG, "handleWeatherJsonResponse: " + weatherJson.status);
         return weatherJson;
 
     }
 
     private static final String TAG = "Utility---------";
+
+
+    public static boolean versionUpdate(NotificationManager nm) {
+//        26通知
+//      .setChannelId("channel_26")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Log.d(TAG, "warnNotify: 26+");
+            String id = "channel_26";
+            String description = "channel_26+";
+            int importance = NotificationManager.IMPORTANCE_LOW;
+            NotificationChannel nc = new NotificationChannel(id, "channel_26", importance);
+            //  mChannel.setDescription(description);
+            //  mChannel.enableLights(true);
+            //  mChannel.setLightColor(Color.RED);
+            //  mChannel.enableVibration(true);
+            //  mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            nm.createNotificationChannel(nc);
+        }
+        return true;
+    }
 }

@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,13 +21,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".WeatherActivity" />
+        <activity android:name=".ConfigActivity" />
 
         <service
-            android:name=".service.AutoUpdateService"
+            android:name=".service.WarnService"
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".service.WarnService"
+            android:name=".service.AutoUpdateService"
             android:enabled="true"
             android:exported="true" />
 
@@ -35,7 +37,7 @@
             android:process=":remote" />
 
 
-        <activity android:name=".SettingActivity"></activity>
+        <!--<activity android:name=".SettingActivity"></activity>-->
     </application>
 
 </manifest>

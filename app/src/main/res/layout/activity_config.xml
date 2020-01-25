@@ -3,9 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:background="#fff"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.bw.bookweather.ConfigActivity">
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="?colorPrimary">
+        <TextView
+            android:id="@+id/configTitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="设置"
+            android:textColor="#fff"
+            android:textSize="20sp" />
+        <Button
+            android:id="@+id/configBackBt"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/back_gray"
+            />
+
+        <!--android:background="@drawable/ic_back"-->
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/configListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
